@@ -1,4 +1,4 @@
-import mysql, { Pool, PoolOptions, QueryResult, RowDataPacket } from 'mysql2/promise';
+import mysql, { FieldPacket, Pool, PoolOptions, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
 import { dotenvConfig } from '../config/dotenvConfig';
 dotenvConfig()
 
@@ -26,7 +26,7 @@ class Database {
         }
     }
 
-    public async query<T extends RowDataPacket[]>(sql: string, params?: any[]): Promise<[T, any]> {
+    public async query<T extends RowDataPacket[] | ResultSetHeader>(sql: string, params?: any[]): Promise<[T, FieldPacket[]]> {
         if (!this.pool) {
             throw new Error('Sem conexão estabalacida com o banco de dadods')
         }

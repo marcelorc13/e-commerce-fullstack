@@ -1,28 +1,48 @@
 import Database from "../db/db";
-import { userType } from "../models/user";
+import { RowDataPacket } from "mysql2";
+import { createUserType, updateUserType } from "../models/user-models";
 
 class UserRepository {
+    async selectAll() {
+        const [res] = await Database.query<RowDataPacket[]>('SELECT * FROM usuarios')
+        return res;
+    }
 
-    async insertUser(user: userType) {
+
+    async select(id: number) {
+        const [res] = await Database.query<RowDataPacket[]>(`
+            SELECT * FROM usuarios
+            WHERE id = ?  
+            `, [id])
+        return res;
+    }
+
+    async insert(user: createUserType) {
         const res = await Database.query(`
             INSERT INTO usuarios(nome, sobrenome, email, senha)
             VALUES(?, ? , ?, ?);
             `, [user.nome, user.sobrenome, user.email, user.senha])
 
-        return(res)
+        return (res)
     }
 
-    async queryAllUsers() {
-        const res = await Database.query('SELECT * FROM usuarios')
-        return res;
-    }
-
-    async queryUser(id: number) {
-        const [res] = await Database.query(`
-            SELECT * FROM usuarios
-            WHERE id = ?  
+    async delete(id: number) {
+        const res = await Database.query(`
+            DELETE FROM usuarios
+            WHERE id = ?
             `, [id])
-        return res;
+        return res
+    }
+
+    async update(user: updateUserType, id: number) {
+        const res = await Database.query(`
+            UPDATE usuarios
+            SET nome = ?,
+                sobrenome = ?,
+                email = ?
+            WHERE id = ?
+            `, [user.nome, user.sobrenome, user.email, id])
+        return res
     }
 }
 
