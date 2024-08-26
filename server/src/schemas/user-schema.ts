@@ -7,12 +7,19 @@ export const createUserSchema = z.object({
     senha: z.string().min(6).max(30),
 })
 
-export type createUserType = z.infer<typeof createUserSchema>
-
 export const updateUserSchema = z.object({
     nome: z.string().min(2).max(60),
     sobrenome: z.string().min(3).max(120),
     email: z.string().email(),
 })
 
-export type updateUserType = z.infer<typeof updateUserSchema>
+export const userResponseSchema = z.object({
+    id: z.number(),
+    nome: z.string(),
+    sobrenome: z.string(),
+    email: z.string().email()
+})
+
+export type createUserDTO = z.infer<typeof createUserSchema>
+export type updateUserDTO = z.infer<typeof updateUserSchema>
+export type userResponseDTO = z.infer<typeof updateUserSchema>

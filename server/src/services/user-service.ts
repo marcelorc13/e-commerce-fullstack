@@ -1,7 +1,7 @@
 import UserRepository from "../repositories/user-repository"
-import { createUserType, updateUserType } from "../models/user-models"
+import { createUserDTO, updateUserDTO, userResponseDTO, } from "../schemas/user-schema"
 class UserService {
-    async getAllUsers() {
+    async getAllUsers(): Promise<userResponseDTO[] | null> {
         const users = await UserRepository.selectAll()
         if (!users) {
             return null
@@ -10,7 +10,7 @@ class UserService {
         return users
     }
 
-    async getUser(id: number) {
+    async getUser(id: number): Promise<userResponseDTO | null> {
         const [user] = await UserRepository.select(id)
         if (!user) {
             return null
@@ -19,7 +19,7 @@ class UserService {
         return user;
     }
 
-    async addUser(user: createUserType) {
+    async addUser(user: createUserDTO) {
         const result = await UserRepository.insert(user)
         return result
     }
@@ -34,7 +34,7 @@ class UserService {
         return result
     }
 
-    async updateUser(user: updateUserType, id: number) {
+    async updateUser(user: updateUserDTO, id: number) {
         const exists = await this.checkIfUserExist(id)
         if (!exists) {
             return null;

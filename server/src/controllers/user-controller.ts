@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import userService from "../services/user-service";
-import { createUserSchema, updateUserSchema } from "../models/user-models";
+import { createUserSchema, updateUserSchema } from "../schemas/user-schema";
 
 class UserController {
     async getAllUsers(req: Request, res: Response) {
