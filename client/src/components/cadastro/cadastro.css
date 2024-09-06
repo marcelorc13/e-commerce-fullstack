@@ -3,9 +3,13 @@
 @tailwind utilities;
 
 form input {
-    @apply border-b ps-1 py-0.5 w-full
+    @apply border-b border-cor-quaternaria ps-1 py-0.5 w-full bg-inherit
+}
+
+form input::placeholder {
+    @apply text-cor-terciaria
 }
 
 a {
-    @apply text-blue-700 cursor-pointer
+    @apply text-cor-terciaria cursor-pointer
 }
