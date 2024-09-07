@@ -17,7 +17,7 @@ const CadastroClient: React.FC = ({ }) => {
     })
 
     const validarSenha = () => {
-        if(cadastro.senha != cadastro.confirmarSenha) {
+        if (cadastro.senha != cadastro.confirmarSenha) {
             return false
         }
         return true
@@ -33,7 +33,7 @@ const CadastroClient: React.FC = ({ }) => {
         e.preventDefault();
         const validar = validarSenha()
 
-        if(!validar){
+        if (!validar) {
             return toast.error("A confirmação de senha está não condiz com a senha")
         }
 
@@ -66,22 +66,39 @@ const CadastroClient: React.FC = ({ }) => {
     }
 
     return (
-        <main className='flex flex-col w-full h-screen items-center justify-between bg-cor-primaria'>
-            <section className='flex flex-col gap-1 w-full text-center py-16 bg-cor-quaternaria text-cor-primaria rounded-br-3xl'>
-                <h1 className='text-3xl font-semibold'>Bem-Vindo!</h1>
+        <main className='flex flex-col md:flex-row w-full h-screen items-center justify-between bg-cor-primaria'>
+            <section className='flex flex-col gap-1 w-full md:hidden text-center py-20 bg-cor-quaternaria text-cor-primaria rounded-br-3xl'>
+                <h1 className='text-3xl font-semibold'>Seja Bem-vindo!</h1>
                 <h2 className='text-sm'>Crie sua conta agora</h2>
             </section>
 
-            <form onSubmit={HandleSubmit} className='flex flex-col w-full gap-4 items-center px-10 text-cor-quaternaria'>
-                <input onChange={HandleChange} type="text" name="nome" id="nome" placeholder='Nome' />
-                <input onChange={HandleChange} type="text" name="sobrenome" id="sobrenome" placeholder='Sobrenome' />
-                <input onChange={HandleChange} type="email" name="email" id="email" placeholder='E-mail' />
-                <input onChange={HandleChange} type="password" name="senha" id="senha" placeholder='Senha' />
-                <input onChange={HandleChange} type="password" name="confirmarSenha" id="confirmarSenha" placeholder='Confirmar Senha' />
-                <button className='w-full rounded-xl py-2 bg-cor-terciaria' type='submit'>Cadastrar-se</button>
-            </form>
+            <section
+                style={{ backgroundImage: "url('/background-cadastro.png'" }}
+                className='relative hidden md:flex flex-col md:basis-1/2 lg:basis-4/5 gap-1 w-full h-screen justify-center text-center bg-center text-cor-quaternaria'>
+                <h2 className='text-2xl font-poppins px-8 leading-relaxed'>"Nosso estilo reflete quem somos e como escolhemos enfrentar o mundo. Aqui, cada peça conta uma história, cada detalhe é pensado para que você sinta a confiança de ser quem realmente é. Descubra uma nova forma de se expressar através da moda."</h2>
+                <span className='absolute bottom-8 left-8 text-lg'>Clothes AI</span>
 
-            <div className='py-6 text-cor-quaternaria'>
+            </section>
+
+            <div className='md:flex md:flex-col w-full gap-4 items-center md:basis-1/2 text-cor-quaternaria'>
+                <div className=' hidden md:flex flex-col gap-2 items-center'>
+                    <h1 className='text-3xl font-medium'>Seja Bem-vindo!</h1>
+                    <h1 className='text-lg'>Crie sua conta agora</h1>
+                </div>
+                <form onSubmit={HandleSubmit} className='flex flex-col w-full gap-4 md:gap-6 items-center px-10'>
+                    <input onChange={HandleChange} type="text" name="nome" id="nome" placeholder='Nome' />
+                    <input onChange={HandleChange} type="text" name="sobrenome" id="sobrenome" placeholder='Sobrenome' />
+                    <input onChange={HandleChange} type="email" name="email" id="email" placeholder='E-mail' />
+                    <input onChange={HandleChange} type="password" name="senha" id="senha" placeholder='Senha' />
+                    <input onChange={HandleChange} type="password" name="confirmarSenha" id="confirmarSenha" placeholder='Confirmar Senha' />
+                    <button className='w-full rounded-xl py-2 bg-cor-terciaria' type='submit'>Cadastrar-se</button>
+                </form>
+                <div className='text-cor-quaternaria hidden md:flex gap-2'>
+                    <span>Ja possui uma conta?</span> <Link href={"/"} >Fazer Login</Link>
+                </div>
+            </div>
+
+            <div className='py-16 text-cor-quaternaria md:hidden'>
                 Ja possui uma conta? <Link href={"/"} >Fazer Login</Link>
             </div>
         </main>

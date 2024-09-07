@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        "poppins": ["var(--font-poppins)"],
+        "roboto": ["var(--font-roboto)"]
+      },
       colors: {
         "cor-primaria": "#1E201E",
         "cor-secundaria": "#3C3D37",
