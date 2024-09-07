@@ -8,4 +8,5 @@ userRouter.get("/:id", UserController.getUser)
 userRouter.post("/", UserController.createUser)
 userRouter.delete("/:id", UserController.deleteUser)
 userRouter.put("/:id", UserController.updateUser)
+userRouter.post("/login", UserController.logUser)
 

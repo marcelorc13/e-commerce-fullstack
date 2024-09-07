@@ -1,5 +1,6 @@
+import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2"
 import UserRepository from "../repositories/user-repository"
-import { createUserDTO, updateUserDTO, userResponseDTO, } from "../schemas/user-schema"
+import { createUserDTO, loginDTO, updateUserDTO, userResponseDTO, } from "../schemas/user-schema"
 class UserService {
     async getAllUsers(): Promise<userResponseDTO[] | null> {
         const users = await UserRepository.selectAll()
@@ -19,12 +20,12 @@ class UserService {
         return user;
     }
 
-    async addUser(user: createUserDTO) {
+    async addUser(user: createUserDTO): Promise<[ResultSetHeader, FieldPacket[]] | null> {
         const result = await UserRepository.insert(user)
         return result
     }
 
-    async deleteUser(id: number) {
+    async deleteUser(id: number): Promise<[ResultSetHeader, FieldPacket[]] | null> {
         const exists = await this.checkIfUserExist(id)
         if (!exists) {
             return null;
@@ -34,7 +35,7 @@ class UserService {
         return result
     }
 
-    async updateUser(user: updateUserDTO, id: number) {
+    async updateUser(user: updateUserDTO, id: number): Promise<[ResultSetHeader, FieldPacket[]] | null> {
         const exists = await this.checkIfUserExist(id)
         if (!exists) {
             return null;
@@ -47,6 +48,15 @@ class UserService {
     async checkIfUserExist(id: number): Promise<Boolean> {
         const [user] = await UserRepository.select(id)
         return !!user
+    }
+
+    async login(userLogin: loginDTO): Promise<loginDTO | null> {
+        const user = await UserRepository.login(userLogin)
+        if (user.length == 0) {
+            return null
+        }
+        return user[0]
+
     }
 }
 

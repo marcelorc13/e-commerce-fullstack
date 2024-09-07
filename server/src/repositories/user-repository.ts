@@ -1,9 +1,9 @@
 import Database from "../db/db";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
-import { createUserDTO, updateUserDTO, userResponseDTO } from "../schemas/user-schema";
+import { createUserDTO, loginDTO, updateUserDTO, userResponseDTO } from "../schemas/user-schema";
 
 class UserRepository {
-    async selectAll() {
+    async selectAll(): Promise<userResponseDTO[]> {
         const [res] = await Database.query<RowDataPacket[]>('SELECT * FROM usuarios')
         return res as userResponseDTO[];
     }
@@ -43,6 +43,14 @@ class UserRepository {
             WHERE id = ?
             `, [user.nome, user.sobrenome, user.email, id])
         return res
+    }
+
+    async login(user: loginDTO): Promise<loginDTO[]> {
+        const [res] = await Database.query<RowDataPacket[]>(`
+            SELECT email, senha FROM usuarios
+            WHERE email = ? AND senha = ?;
+            `, [user.email, user.senha])
+        return res as loginDTO[]
     }
 }
 
