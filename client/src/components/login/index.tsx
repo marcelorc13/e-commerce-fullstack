@@ -36,14 +36,17 @@ const LoginClient: React.FC<Props> = ({ }) => {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/login`, {
             method: "POST",
             body: JSON.stringify(login),
+            credentials: "include",
             headers: {
                 'content-type': 'application/json'
             }
         })
+        const result = await res.json()
         if (!res.ok) {
-            return toast.error("Usuário ou senha incorreto")
+            return toast.error(result.message)
         }
-        toast.success("Logado com sucesso, seja bem-vindo!")
+        toast.success(result.message)
+        console.log(result)
         return router.push("/")
     }
 

@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
 import UserService from "../services/user-service";
-import { createUserSchema, loginSchema, updateUserSchema } from "../schemas/user-schema";
+import { createUserSchema, loginDTO, loginSchema, updateUserSchema } from "../schemas/user-schema";
+import { dotenvConfig } from "../config/dotenvConfig";
+import jwt from "jsonwebtoken"
 
+dotenvConfig()
 class UserController {
     async getAllUsers(req: Request, res: Response) {
         const result = await UserService.getAllUsers()
@@ -74,12 +77,17 @@ class UserController {
 
     async logUser(req: Request, res: Response) {
         try {
-            const user = req.body
+            const user: loginDTO = req.body
             const result = await UserService.login(user)
 
             if (!result) {
                 return res.status(404).json({ status: 404, message: "Não foi possível encontrar o usuário, Email ou Senha incorretos" })
             }
+
+            const secretKey: string = process.env.SECRET_KEY || ""
+            const token = jwt.sign({ email: user.email }, secretKey, { expiresIn: "1h" })
+
+            res.cookie("Set-Cookie", token, { httpOnly: true })
             return res.status(200).json({ status: 200, message: "Usuário logado com sucesso!" })
         }
         catch (err) {
