@@ -7,5 +7,10 @@ export const cadastrarUserSchema = z.object({
     senha: z.string().min(6, "A senha deve conter pelo menos 6 caracteres").max(30, "A senha deve conter no máximo 30 caracteres"),
     confirmarSenha: z.string().nullable()
 })
+export const loginUserSchema = z.object({
+    email: z.string().email("Email inválido"),
+    senha: z.string().min(6, "A senha deve conter pelo menos 6 caracteres").max(30, "A senha deve conter no máximo 30 caracteres"),
+})
 
 export type cadastrarUserType = z.infer<typeof cadastrarUserSchema>
+export type loginUserType = z.infer<typeof loginUserSchema>

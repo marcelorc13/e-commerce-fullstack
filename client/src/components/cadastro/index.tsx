@@ -5,8 +5,11 @@ import Link from 'next/link';
 import { useState, FormEvent, useEffect } from 'react';
 import { cadastrarUserSchema, cadastrarUserType } from '@/schemas/userSchemas';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const CadastroClient: React.FC = ({ }) => {
+
+    const router = useRouter()
 
     const [cadastro, setCadastro] = useState<cadastrarUserType>({
         nome: "",
@@ -58,7 +61,8 @@ const CadastroClient: React.FC = ({ }) => {
                 return toast.error("Não foi possível cadastrar o usuário")
             }
             //console.log({ message: "Usuário cadastrado com sucesso", result: res })
-            return toast.success("Usuário cadastrado com sucesso")
+            toast.success("Usuário cadastrado com sucesso")
+            return router.push("/")
         }
         catch (err) {
             return console.log(err)
