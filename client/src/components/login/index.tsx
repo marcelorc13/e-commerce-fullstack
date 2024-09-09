@@ -29,25 +29,33 @@ const LoginClient: React.FC<Props> = ({ }) => {
 
     const HandleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const validar = loginUserSchema.safeParse(login)
-        if (validar.success == false) {
-            return toast.error("Usuário ou senha incorreto")
-        }
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/login`, {
-            method: "POST",
-            body: JSON.stringify(login),
-            credentials: "include",
-            headers: {
-                'content-type': 'application/json'
+        try {
+            const validar = loginUserSchema.safeParse(login)
+            if (validar.success == false) {
+                return toast.error("Usuário ou senha incorreto")
             }
-        })
-        const result = await res.json()
-        if (!res.ok) {
-            return toast.error(result.message)
+            
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/login`, {
+                method: "POST",
+                body: JSON.stringify(login),
+                credentials: "include",
+                headers: {
+                    'content-type': 'application/json'
+                }
+            })
+
+            const result = await res.json()
+
+            if (!res.ok) {
+                return toast.error(result.message)
+            }
+
+            toast.success(result.message)
+            return router.push("/")
         }
-        toast.success(result.message)
-        console.log(result)
-        return router.push("/")
+        catch (err) {
+            console.log(err)
+        }
     }
 
     return (

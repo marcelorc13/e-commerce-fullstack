@@ -20,7 +20,7 @@ class UserService {
         return user;
     }
 
-    async addUser(user: createUserDTO): Promise<[ResultSetHeader, FieldPacket[]] | null> {
+    async addUser(user: createUserDTO): Promise<[ResultSetHeader, FieldPacket[]]> {
         const result = await UserRepository.insert(user)
         return result
     }

@@ -48,6 +48,7 @@ const CadastroClient: React.FC = ({ }) => {
                 return toast.error(err.message)
             })
         }
+        
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/`, {
                 method: "POST",
@@ -56,13 +57,15 @@ const CadastroClient: React.FC = ({ }) => {
                     'content-type': 'application/json'
                 }
             })
+
+            const result = await res.json()
+
             if (!res.ok) {
-                //return console.log({ message: "Não foi possivel cadastrar o usuário", result: res })
-                return toast.error("Não foi possível cadastrar o usuário")
+                return toast.error(result.message)
             }
-            //console.log({ message: "Usuário cadastrado com sucesso", result: res })
-            toast.success("Usuário cadastrado com sucesso")
-            return router.push("/")
+
+            toast.success(result.message)
+            return router.push("/login")
         }
         catch (err) {
             return console.log(err)
